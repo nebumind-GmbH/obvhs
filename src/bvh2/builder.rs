@@ -1,4 +1,10 @@
-use std::time::{Duration, Instant};
+#[cfg(target_arch = "wasm32")]
+pub use web_time::{Duration, Instant, SystemTime, SystemTimeError, TryFromFloatSecsError};
+#[cfg(not(target_arch = "wasm32"))]
+pub use {
+    core::time::{Duration, TryFromFloatSecsError},
+    std::time::{Instant, SystemTime, SystemTimeError},
+};
 
 use crate::{
     aabb::Aabb, splits::split_aabbs_preset, triangle::Triangle, Boundable, BvhBuildParams,
