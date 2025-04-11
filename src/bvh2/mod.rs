@@ -161,7 +161,7 @@ pub struct Bvh2 {
     /// for large scenes without a tlas.
     pub max_depth: Option<usize>,
 }
-const DEFAULT_MAX_STACK_DEPTH: usize = 96;
+const DEFAULT_MAX_STACK_DEPTH: usize = 2048;
 
 impl Bvh2 {
     #[inline(always)]

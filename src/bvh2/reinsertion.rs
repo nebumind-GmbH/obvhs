@@ -66,7 +66,8 @@ impl ReinsertionOptimizer<'_> {
                 .collect::<Vec<_>>(),
         );
 
-        let mut reinsertion_stack = HeapStack::<(f32, u32)>::new_with_capacity(256); // Can't put in Self because of borrows
+        let cap = 2048;
+        let mut reinsertion_stack = HeapStack::<(f32, u32)>::new_with_capacity(cap); // Can't put in Self because of borrows
         ratio_sequence.iter().for_each(|ratio| {
             let batch_size =
                 (((self.bvh.nodes.len() as f32 * self.batch_size_ratio) * ratio) as usize).max(1);
@@ -109,7 +110,8 @@ impl ReinsertionOptimizer<'_> {
                 .into_par_iter()
                 .map(|i| {
                     // TODO figure out a way to create a limited number of these just once and reuse from the rayon
-                    let mut stack = HeapStack::<(f32, u32)>::new_with_capacity(256);
+                    let cap = 2048;
+                    let mut stack = HeapStack::<(f32, u32)>::new_with_capacity(cap);
                     self.find_reinsertion(&mut stack, self.candidates[i].node_id as usize)
                 })
                 .collect::<Vec<_>>();
